@@ -1,13 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: _namespace_
-  name: z-instance-modelserver
+  namespace: @namespace@
+  name: @modelname@-modelserver
   labels:
-    app: instance-modelserver
-    chart: instance-modelserver-0.1.0
-    release: z
-    heritage: Tiller
+    app: @modelname@-modelserver
 spec:
   type: NodePort
   ports:
@@ -20,7 +17,7 @@ spec:
       protocol: TCP
       name: tf-restful
   selector:
-    app: instance-modelserver
+    app: @modelname@-modelserver
     release: z
 
 ---
@@ -28,13 +25,11 @@ spec:
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  namespace: _namespace_
-  name: z-instance-modelserver
+  namespace: @namespace@
+  name: @modelname@-modelserver
   labels:
-    app: instance-modelserver
-    chart: instance-modelserver-0.1.0
-    release: z
-    heritage: Tiller
+    app: @modelname@-modelserver
+
 spec:
   replicas: 1
   selector:
@@ -52,10 +47,10 @@ spec:
           - /usr/bin/tensorflow_model_server
           - --port=9000
           - --rest_api_port=8501
-          - --model_name=chicago-taxi
-          - --model_base_path=/models/chicago-taxi
-          name: instance-modelserver
-          image: "index.alauda.cn/alaudak8s/chicago-taxi-modelserver:latest"
+          - --model_name=@modelname@
+          - --model_base_path=/models/@modelname@
+          name: @modelname@-modelserver
+          image: "index.alauda.cn/alaudak8s/@modelname@-modelserver:latest"
           imagePullPolicy: IfNotPresent
           ports:
             - name: tf-serving
