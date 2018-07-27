@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: @namespace@
-  name: @modelname@-modelserver
+  namespace: _namespace_
+  name: _modelname_-modelserver
   labels:
-    app: @modelname@-modelserver
+    app: _modelname_-modelserver
 spec:
   type: NodePort
   ports:
@@ -17,7 +17,7 @@ spec:
       protocol: TCP
       name: tf-restful
   selector:
-    app: @modelname@-modelserver
+    app: _modelname_-modelserver
     release: z
 
 ---
@@ -25,10 +25,10 @@ spec:
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  namespace: @namespace@
-  name: @modelname@-modelserver
+  namespace: _namespace_
+  name: _modelname_-modelserver
   labels:
-    app: @modelname@-modelserver
+    app: _modelname_-modelserver
 
 spec:
   replicas: 1
@@ -47,10 +47,10 @@ spec:
           - /usr/bin/tensorflow_model_server
           - --port=9000
           - --rest_api_port=8501
-          - --model_name=@modelname@
-          - --model_base_path=/models/@modelname@
-          name: @modelname@-modelserver
-          image: "index.alauda.cn/alaudak8s/@modelname@-modelserver:latest"
+          - --model_name=_modelname_
+          - --model_base_path=/models/_modelname_
+          name: _modelname_-modelserver
+          image: "index.alauda.cn/alaudak8s/_modelname_-modelserver:latest"
           imagePullPolicy: IfNotPresent
           ports:
             - name: tf-serving
