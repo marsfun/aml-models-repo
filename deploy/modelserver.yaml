@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: _namespace_
   name: z-instance-modelserver
   labels:
     app: instance-modelserver
@@ -27,6 +28,7 @@ spec:
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
+  namespace: _namespace_
   name: z-instance-modelserver
   labels:
     app: instance-modelserver
