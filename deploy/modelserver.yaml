@@ -18,7 +18,6 @@ spec:
       targetPort:  8501
       protocol: TCP
       name: tf-restful
-      type: NodePort
   selector:
     app: instance-modelserver
     release: z
