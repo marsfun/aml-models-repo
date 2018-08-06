@@ -1,2 +1,5 @@
-<namespace>daniel</namespace>
-<modelname>cat-prediction</modelname>
+<namespace>max</namespace>
+<modelname>chicago-taxi</modelname>
+<modelversion>v0.1</modelversion>
+<restfulport>8501</restfulport>
+<grpcport>9000</grpcport>

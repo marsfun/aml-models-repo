@@ -1,23 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: _namespace_
-  name: _modelname_-modelserver
+  namespace: @namespace@
+  name: @modelname@-modelserver
   labels:
-    app: _modelname_-modelserver
+    app: @modelname@-modelserver
 spec:
   type: NodePort
   ports:
-    - port: 9000
-      targetPort:  9000 
+    - port: @restfulport@
+      targetPort:  @restfulport@ 
       protocol: TCP
       name: tf-serving
-    - port: 8501
-      targetPort:  8501
+    - port: @grpcport@
+      targetPort:  @grpcport@
       protocol: TCP
       name: tf-restful
   selector:
-    app: _modelname_-modelserver
+    app: @modelname@-modelserver
     release: z
 
 ---
@@ -25,10 +25,10 @@ spec:
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  namespace: _namespace_
-  name: _modelname_-modelserver
+  namespace: @namespace@
+  name: @modelname@-modelserver
   labels:
-    app: _modelname_-modelserver
+    app: @modelname@-modelserver
 
 spec:
   replicas: 1
@@ -45,19 +45,19 @@ spec:
       containers:
         - args:
           - /usr/bin/tensorflow_model_server
-          - --port=9000
-          - --rest_api_port=8501
-          - --model_name=_modelname_
-          - --model_base_path=/models/_modelname_
-          name: _modelname_-modelserver
-          image: "index.alauda.cn/alaudak8s/_modelname_-modelserver:latest"
+          - --port=@restfulport@
+          - --rest_api_port=@grpcport@
+          - --model_name=@modelname@
+          - --model_base_path=/models/@modelname@
+          name: @modelname@-modelserver
+          image: "index.alauda.cn/alaudak8s/@modelname@-modelserver:@modelversion@"
           imagePullPolicy: IfNotPresent
           ports:
             - name: tf-serving
-              containerPort: 9000
+              containerPort: @restfulport@
               protocol: TCP
             - name: tf-restful
-              containerPort: 8501
+              containerPort: @grpcport@
               protocol: TCP
           livenessProbe:
             tcpSocket:
