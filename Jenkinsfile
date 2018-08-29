@@ -27,7 +27,11 @@ pipeline {
                     """
 
                     def getyamlparam = { String p ->
-                        datas = readYaml(file: 'deploy/meta.yaml')
+                        datas = readYaml text: """
+                        something: 'my datas'
+                        size: 3
+                        isEmpty: false
+                        """
                         echo "datas=" datas
                         // echo "metaClass=" datas.metaClass
                         // datas.metaClass.p
