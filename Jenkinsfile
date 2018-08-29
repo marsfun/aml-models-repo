@@ -42,15 +42,17 @@ pipeline {
                         matcher?matcher[0][1]:null
                     }
                     def sedcmd=""
-                    def getCmd = { String old, name ->
-                        v = getparam(name)
-                        cmd = String.format("sed -i 's/@%s@/%s/g' deploy/modelserver.yaml",name,v)
+                    def getCmd = { String old, k,v ->
+                        // v = getparam(name)
+                        cmd = String.format("sed -i 's/@%s@/%s/g' deploy/modelserver.yaml",k,v)
                         if (old != "") {
                             old + " && " + cmd
                         }else{
                             cmd
                         }
                     }
+
+
                     yamldata = readYaml file: 'deploy/meta.yaml'
                     echo yamldata.namespace
                     echo yamldata.modelname
@@ -60,11 +62,11 @@ pipeline {
                     echo '---'
                     // echo ns1
 
-                    sedcmd = getCmd(sedcmd,yamldata.namespace)
-                    sedcmd = getCmd(sedcmd,yamldata.modelname)
-                    sedcmd = getCmd(sedcmd,yamldata.modelversion)
-                    sedcmd = getCmd(sedcmd,yamldata.grpcport+'')
-                    sedcmd = getCmd(sedcmd,yamldata.restfulport+'')
+                    sedcmd = getCmd(sedcmd,'namespace',yamldata.namespace)
+                    sedcmd = getCmd(sedcmd,'modelname',yamldata.modelname)
+                    sedcmd = getCmd(sedcmd,'modelversion',yamldata.modelversion)
+                    sedcmd = getCmd(sedcmd,'grpcport',yamldata.grpcport+'')
+                    sedcmd = getCmd(sedcmd,'restfulport',yamldata.restfulport+'')
                     
 
                     // sedcmd = getCmd(sedcmd,"namespace")
