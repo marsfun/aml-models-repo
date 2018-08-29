@@ -55,16 +55,16 @@ pipeline {
                     echo yamldata.namespace
                     echo yamldata.modelname
                     echo yamldata.modelversion
-                    echo yamldata.grpcport
-                    echo yamldata.restfulport
+                    echo (yamldata.grpcport).toString()
+                    echo (yamldata.restfulport).toString()
                     echo '---'
                     // echo ns1
 
                     sedcmd = getCmd(sedcmd,yamldata.namespace)
                     sedcmd = getCmd(sedcmd,yamldata.modelname)
                     sedcmd = getCmd(sedcmd,yamldata.modelversion)
-                    sedcmd = getCmd(sedcmd,yamldata.grpcport)
-                    sedcmd = getCmd(sedcmd,yamldata.restfulport)
+                    sedcmd = getCmd(sedcmd,(yamldata.grpcport).toString())
+                    sedcmd = getCmd(sedcmd,(yamldata.restfulport).toString())
                     
 
                     // sedcmd = getCmd(sedcmd,"namespace")
