@@ -30,7 +30,7 @@ pipeline {
                         datas = readYaml file: 'deploy/meta.yaml'
                         echo "datas=" datas
                         echo "metaClass=" datas.metaClass
-                        datas.metaClass.p
+                        // datas.metaClass.p
                     }
 
 
@@ -48,7 +48,8 @@ pipeline {
                             cmd
                         }
                     }
-                    echo 'ns=' getyamlparam('namespace')
+                    ns1 = getyamlparam('namespace')
+                    echo 'ns=' ns1
 
                     sedcmd = getCmd(sedcmd,"namespace")
                     sedcmd = getCmd(sedcmd,"modelname")
