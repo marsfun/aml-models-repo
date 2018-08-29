@@ -26,13 +26,14 @@ pipeline {
                     cat deploy/meta.yaml
                     """
 
-                    def getyamlparam = { String p ->
+                    def getyaml = { 
                         datas = readYaml file: 'deploy/meta.yaml'
-                        echo datas
+                        datas
+                        // echo datas.
 
-                        echo "metaClass=" datas.get(p)
-                        // datas.metaClass.p
-                        datas.get(p)
+                        // echo "metaClass=" datas.get(p)
+                        // // datas.metaClass.p
+                        // datas.get(p)
                     }
 
 
@@ -50,15 +51,22 @@ pipeline {
                             cmd
                         }
                     }
-                    ns1 = getyamlparam('namespace')
+                    yamldata = getyaml()
                     echo '---'
-                    echo ns1
+                    // echo ns1
 
-                    sedcmd = getCmd(sedcmd,"namespace")
-                    sedcmd = getCmd(sedcmd,"modelname")
-                    sedcmd = getCmd(sedcmd,"modelversion")
-                    sedcmd = getCmd(sedcmd,"grpcport")
-                    sedcmd = getCmd(sedcmd,"restfulport")
+                    sedcmd = getCmd(sedcmd,yamldata.namespace)
+                    sedcmd = getCmd(sedcmd,yamldata.modelname)
+                    sedcmd = getCmd(sedcmd,yamldata.modelversion)
+                    sedcmd = getCmd(sedcmd,yamldata.grpcport)
+                    sedcmd = getCmd(sedcmd,yamldata.restfulport)
+                    
+
+                    // sedcmd = getCmd(sedcmd,"namespace")
+                    // sedcmd = getCmd(sedcmd,"modelname")
+                    // sedcmd = getCmd(sedcmd,"modelversion")
+                    // sedcmd = getCmd(sedcmd,"grpcport")
+                    // sedcmd = getCmd(sedcmd,"restfulport")
                     // print final yaml
                     sh """
                     $sedcmd
