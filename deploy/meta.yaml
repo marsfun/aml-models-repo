@@ -1,0 +1,5 @@
+namespace: max
+modelname: chicago-taxi
+modelversion: v0.1
+restfulport: 8501
+grpcport: 9000

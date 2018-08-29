@@ -25,6 +25,13 @@ pipeline {
                     sh """
                     cat deploy/meta.xml
                     """
+
+                    def getyamlparam = { String p ->
+                        datas = readYaml file: 'deploy/meta.xml'
+                        datas.metaClass.p
+                    }
+
+
                     def getparam = { String param ->
                         def matcher = readFile('deploy/meta.xml') =~ "<$param>(.+)</$param>"
                         matcher?matcher[0][1]:null
@@ -39,6 +46,8 @@ pipeline {
                             cmd
                         }
                     }
+                    echo 'ns=' getyamlparam('namespace')
+
                     sedcmd = getCmd(sedcmd,"namespace")
                     sedcmd = getCmd(sedcmd,"modelname")
                     sedcmd = getCmd(sedcmd,"modelversion")

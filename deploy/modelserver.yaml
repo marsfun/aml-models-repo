@@ -8,12 +8,12 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: @restfulport@
-      targetPort:  @restfulport@ 
+    - port: @grpcport@
+      targetPort:  @grpcport@ 
       protocol: TCP
       name: tf-serving
-    - port: @grpcport@
-      targetPort:  @grpcport@
+    - port: @restfulport@
+      targetPort:  @restfulport@
       protocol: TCP
       name: tf-restful
   selector:
@@ -45,8 +45,8 @@ spec:
       containers:
         - args:
           - /usr/bin/tensorflow_model_server
-          - --port=@restfulport@
-          - --rest_api_port=@grpcport@
+          - --port=@grpcport@
+          - --rest_api_port=@restfulport@
           - --model_name=@modelname@
           - --model_base_path=/models/@modelname@
           name: @modelname@-modelserver
@@ -54,10 +54,10 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - name: tf-serving
-              containerPort: @restfulport@
+              containerPort: @grpcport@
               protocol: TCP
             - name: tf-restful
-              containerPort: @grpcport@
+              containerPort: @restfulport@
               protocol: TCP
           livenessProbe:
             tcpSocket:
