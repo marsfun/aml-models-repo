@@ -26,15 +26,15 @@ pipeline {
                     cat deploy/meta.yaml
                     """
 
-                    def getyaml = { 
-                        datas = readYaml file: 'deploy/meta.yaml'
-                        datas
-                        // echo datas.
+                    // def getyaml = { 
+                    //     datas = readYaml file: 'deploy/meta.yaml'
+                    //     datas
+                    //     // echo datas.
 
-                        // echo "metaClass=" datas.get(p)
-                        // // datas.metaClass.p
-                        // datas.get(p)
-                    }
+                    //     // echo "metaClass=" datas.get(p)
+                    //     // // datas.metaClass.p
+                    //     // datas.get(p)
+                    // }
 
 
                     def getparam = { String param ->
@@ -51,7 +51,7 @@ pipeline {
                             cmd
                         }
                     }
-                    yamldata = getyaml()
+                    yamldata = readYaml file: 'deploy/meta.yaml'
                     echo '---'
                     // echo ns1
 
