@@ -56,7 +56,7 @@ pipeline {
                     echo yamldata.modelname
                     echo yamldata.modelversion
                     echo yamldata.grpcport+''
-                    echo (yamldata.restfulport+''
+                    echo yamldata.restfulport+''
                     echo '---'
                     // echo ns1
 
