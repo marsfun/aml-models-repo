@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'Checkout'
                 //checkout([$class: 'GitSCM', branches: [[name: '*/master']], browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/marsfun/aml-models-repo'], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/marsfun/aml-models-repo']]])
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sharedlib', url: 'https://bitbucket.org/yuanfangalauda/aml-models-repo/']]])
+                //checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sharedlib', url: 'https://bitbucket.org/yuanfangalauda/aml-models-repo/']]])
             }
         }    
         stage('busi') {
