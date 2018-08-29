@@ -32,7 +32,7 @@ pipeline {
                         size: 3
                         isEmpty: false
                         """
-                        echo "datas=" datas
+                        echo datas.something
                         // echo "metaClass=" datas.metaClass
                         // datas.metaClass.p
                     }
