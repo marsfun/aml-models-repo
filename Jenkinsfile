@@ -27,14 +27,12 @@ pipeline {
                     """
 
                     def getyamlparam = { String p ->
-                        datas = readYaml text: """
-                        something: 'my datas'
-                        size: 3
-                        isEmpty: false
-                        """
-                        echo datas.something
-                        // echo "metaClass=" datas.metaClass
+                        datas = readYaml file: 'deploy/meta.yaml'
+                        echo datas
+
+                        echo "metaClass=" datas.get(p)
                         // datas.metaClass.p
+                        datas.get(p)
                     }
 
 
@@ -53,7 +51,8 @@ pipeline {
                         }
                     }
                     ns1 = getyamlparam('namespace')
-                    echo 'ns=' ns1
+                    echo '---'
+                    echo ns1
 
                     sedcmd = getCmd(sedcmd,"namespace")
                     sedcmd = getCmd(sedcmd,"modelname")
