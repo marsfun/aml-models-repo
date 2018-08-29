@@ -23,7 +23,7 @@ pipeline {
                 script{
                     echo 'busi'
                     sh """
-                    cat deploy/meta.xml
+                    cat deploy/meta.yaml
                     """
 
                     def getyamlparam = { String p ->
