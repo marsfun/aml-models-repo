@@ -52,6 +52,11 @@ pipeline {
                         }
                     }
                     yamldata = readYaml file: 'deploy/meta.yaml'
+                    echo yamldata.namespace
+                    echo yamldata.modelname
+                    echo yamldata.modelversion
+                    echo yamldata.grpcport
+                    echo yamldata.restfulport
                     echo '---'
                     // echo ns1
 
