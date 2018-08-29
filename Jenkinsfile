@@ -27,7 +27,7 @@ pipeline {
                     """
 
                     def getyamlparam = { String p ->
-                        datas = readYaml file: 'deploy/meta.xml'
+                        datas = readYaml file: 'deploy/meta.yaml'
                         datas.metaClass.p
                     }
 
