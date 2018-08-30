@@ -44,7 +44,8 @@ pipeline {
                     }
 
                     yamldata = readYaml file: 'deploy/meta.yaml'
-                    println('class = %s',yamldata.getClass())
+                    println yamldata.getClass()
+                    println '888'
                     echo yamldata.namespace
                     echo yamldata.modelname
                     echo yamldata.modelversion
