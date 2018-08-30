@@ -26,14 +26,7 @@ pipeline {
                     cat deploy/meta.yaml
                     """
                     
-                    def getparam = { String param->
-                        def format = 'yaml'
-                        if (format == 'xml'){
-                            getxmlparam(param)
-                        }else{
-                            getyamlparam(param)
-                        }
-                    }
+                    
 
                     def getxmlparam = { String param ->
                         def matcher = readFile('deploy/meta.xml') =~ "<$param>(.+)</$param>"
@@ -47,11 +40,19 @@ pipeline {
                         }
                         yamldata[param]+''
                     }
+                    def getparam = { String param->
+                        def format = 'yaml'
+                        if (format == 'xml'){
+                            getxmlparam(param)
+                        }else{
+                            getyamlparam(param)
+                        }
+                    }
 
                     def sedcmd=""
-                    def getCmd = { String old, k,v ->
-                        // v = getparam(name)
-                        cmd = String.format("sed -i 's/@%s@/%s/g' deploy/modelserver.yaml",k,v)
+                    def getCmd = { String old, name ->
+                        v = getparam(name)
+                        cmd = String.format("sed -i 's/@%s@/%s/g' deploy/modelserver.yaml",name,v)
                         if (old != "") {
                             old + " && " + cmd
                         }else{
@@ -65,11 +66,11 @@ pipeline {
                     echo getparam('restfulport')
                     echo '---'
 
-                    sedcmd = getCmd(sedcmd,getparam('namespace'))
-                    sedcmd = getCmd(sedcmd,getparam('modelname'))
-                    sedcmd = getCmd(sedcmd,getparam('modelversion'))
-                    sedcmd = getCmd(sedcmd,getparam('grpcport'))
-                    sedcmd = getCmd(sedcmd,getparam('restfulport'))
+                    sedcmd = getCmd(sedcmd,'namespace')
+                    sedcmd = getCmd(sedcmd,'modelname')
+                    sedcmd = getCmd(sedcmd,'modelversion')
+                    sedcmd = getCmd(sedcmd,'grpcport')
+                    sedcmd = getCmd(sedcmd,'restfulport')
                     
                     // print final yaml
                     sh """
