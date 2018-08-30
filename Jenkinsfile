@@ -26,7 +26,7 @@ pipeline {
                     cat deploy/meta.yaml
                     """
                     
-                    def getparam{String param->
+                    def getparam = { String param->
                         def format = 'yaml'
                         if (format == 'xml'){
                             getxmlparam(param)
