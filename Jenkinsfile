@@ -26,21 +26,12 @@ pipeline {
                     cat deploy/meta.yaml
                     """
 
-                    // def getyaml = { 
-                    //     datas = readYaml file: 'deploy/meta.yaml'
-                    //     datas
-                    //     // echo datas.
-
-                    //     // echo "metaClass=" datas.get(p)
-                    //     // // datas.metaClass.p
-                    //     // datas.get(p)
-                    // }
-
-
                     def getparam = { String param ->
                         def matcher = readFile('deploy/meta.xml') =~ "<$param>(.+)</$param>"
                         matcher?matcher[0][1]:null
                     }
+
+
                     def sedcmd=""
                     def getCmd = { String old, k,v ->
                         // v = getparam(name)
@@ -52,15 +43,14 @@ pipeline {
                         }
                     }
 
-
                     yamldata = readYaml file: 'deploy/meta.yaml'
+                    println('class = %s',yamldata.getClass())
                     echo yamldata.namespace
                     echo yamldata.modelname
                     echo yamldata.modelversion
                     echo yamldata.grpcport+''
                     echo yamldata.restfulport+''
                     echo '---'
-                    // echo ns1
 
                     sedcmd = getCmd(sedcmd,'namespace',yamldata.namespace)
                     sedcmd = getCmd(sedcmd,'modelname',yamldata.modelname)
@@ -68,12 +58,6 @@ pipeline {
                     sedcmd = getCmd(sedcmd,'grpcport',yamldata.grpcport+'')
                     sedcmd = getCmd(sedcmd,'restfulport',yamldata.restfulport+'')
                     
-
-                    // sedcmd = getCmd(sedcmd,"namespace")
-                    // sedcmd = getCmd(sedcmd,"modelname")
-                    // sedcmd = getCmd(sedcmd,"modelversion")
-                    // sedcmd = getCmd(sedcmd,"grpcport")
-                    // sedcmd = getCmd(sedcmd,"restfulport")
                     // print final yaml
                     sh """
                     $sedcmd
