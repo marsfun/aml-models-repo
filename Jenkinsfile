@@ -25,7 +25,7 @@ pipeline {
                     sh """
                     cat deploy/meta.yaml
                     """
-                    
+
                     def getxmlparam = { String param ->
                         def matcher = readFile('deploy/meta.xml') =~ "<$param>(.+)</$param>"
                         matcher?matcher[0][1]:null
@@ -35,6 +35,7 @@ pipeline {
                     def getyamlparam = { String param ->
                         if(yamlloaded==0){
                             yamldata = readYaml file: 'deploy/meta.yaml'
+                            yamlloaded = 1
                             echo 'read yaml file : deploy/meta.yaml'
                         }
                         yamldata[param]+''
