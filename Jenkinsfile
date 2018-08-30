@@ -25,12 +25,28 @@ pipeline {
                     sh """
                     cat deploy/meta.yaml
                     """
+                    
+                    def getparam{String param->
+                        def format = 'yaml'
+                        if (format == 'xml'){
+                            getxmlparam(param)
+                        }else{
+                            getyamlparam(param)
+                        }
+                    }
 
-                    def getparam = { String param ->
+                    def getxmlparam = { String param ->
                         def matcher = readFile('deploy/meta.xml') =~ "<$param>(.+)</$param>"
                         matcher?matcher[0][1]:null
                     }
-
+                    def yamlloaded = 0
+                    def yamldata
+                    def getyamlparam = { String param ->
+                        if(yamlloaded==0){
+                            yamldata = readYaml file: 'deploy/meta.yaml'
+                        }
+                        yamldata[param]+''
+                    }
 
                     def sedcmd=""
                     def getCmd = { String old, k,v ->
@@ -42,22 +58,18 @@ pipeline {
                             cmd
                         }
                     }
-
-                    yamldata = readYaml file: 'deploy/meta.yaml'
-                    println yamldata.getClass()
-                    println '888'
-                    echo yamldata.namespace
-                    echo yamldata.modelname
-                    echo yamldata.modelversion
-                    echo yamldata.grpcport+''
-                    echo yamldata.restfulport+''
+                    echo getparam('namespace')
+                    echo getparam('modelname')
+                    echo getparam('modelversion')
+                    echo getparam('grpcport')
+                    echo getparam('restfulport')
                     echo '---'
 
-                    sedcmd = getCmd(sedcmd,'namespace',yamldata.namespace)
-                    sedcmd = getCmd(sedcmd,'modelname',yamldata.modelname)
-                    sedcmd = getCmd(sedcmd,'modelversion',yamldata.modelversion)
-                    sedcmd = getCmd(sedcmd,'grpcport',yamldata.grpcport+'')
-                    sedcmd = getCmd(sedcmd,'restfulport',yamldata.restfulport+'')
+                    sedcmd = getCmd(sedcmd,getparam('namespace'))
+                    sedcmd = getCmd(sedcmd,getparam('modelname'))
+                    sedcmd = getCmd(sedcmd,getparam('modelversion'))
+                    sedcmd = getCmd(sedcmd,getparam('grpcport'))
+                    sedcmd = getCmd(sedcmd,getparam('restfulport'))
                     
                     // print final yaml
                     sh """
