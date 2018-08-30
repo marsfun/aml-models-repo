@@ -42,6 +42,7 @@ pipeline {
                     }
                     def getparam = { String param->
                         def format = 'yaml'
+                        echo 'read from '+ format
                         if (format == 'xml'){
                             getxmlparam(param)
                         }else{
@@ -59,12 +60,12 @@ pipeline {
                             cmd
                         }
                     }
-                    echo getparam('namespace')
-                    echo getparam('modelname')
-                    echo getparam('modelversion')
-                    echo getparam('grpcport')
-                    echo getparam('restfulport')
-                    echo '---'
+                    // echo getparam('namespace')
+                    // echo getparam('modelname')
+                    // echo getparam('modelversion')
+                    // echo getparam('grpcport')
+                    // echo getparam('restfulport')
+                    // echo '---'
 
                     sedcmd = getCmd(sedcmd,'namespace')
                     sedcmd = getCmd(sedcmd,'modelname')
