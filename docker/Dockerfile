@@ -1,4 +1,4 @@
-FROM index.alauda.cn/alaudaorg/base-modelserver:latest
+FROM index.alauda.cn/alaudaorg/base-modelserver:1.13.0
 
 ################################
 # extends from parent
